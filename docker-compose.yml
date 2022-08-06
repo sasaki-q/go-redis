@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+
+  service:
+    container_name: cache-container
+    build: 
+      context: .
+      dockerfile: dockerfile
+    depends_on:
+      - cache-database
+    ports:
+      - 9090:9090
+    volumes:
+      - ./src:/go/src/
+  
+  cache-database:
+    image: postgres:14-alpine
+    container_name: cache-database
+    ports: 
+      - 5433:5432
+    environment:
+      TZ: "Asia/Tokyo"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cache-database
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d/
+      - ./pgdata:/var/lib/postgresql/data

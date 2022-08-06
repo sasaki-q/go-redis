@@ -1,0 +1,5 @@
+CREATE TABLE item (
+  id        	SERIAL PRIMARY KEY,
+  title      	VARCHAR(20) NOT NULL,
+  created_at 	TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);

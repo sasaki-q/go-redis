@@ -1,4 +1,5 @@
 pgdata
+redis
 
 src/tmp
 src/go.sum

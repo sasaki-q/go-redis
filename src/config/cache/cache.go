@@ -2,13 +2,14 @@ package cache
 
 import (
 	"context"
+	"time"
 
 	"github.com/go-redis/redis/v8"
 )
 
 type Data struct {
-	key   string
-	value string
+	K string
+	V string
 }
 
 var (
@@ -20,14 +21,14 @@ func Init() {
 	c = context.Background()
 
 	myCache = redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
+		Addr:     "redis:6379",
 		Password: "",
 		DB:       0,
 	})
 }
 
 func Set(d Data) {
-	err := myCache.Set(c, d.key, d.value, 0).Err()
+	err := myCache.Set(c, d.K, d.V, 5*time.Second).Err()
 
 	if err != nil {
 		panic(err)

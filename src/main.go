@@ -5,6 +5,7 @@ import (
 
 	"example.com/redis/config/cache"
 	"example.com/redis/config/database"
+	"example.com/redis/features/item"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,7 +15,8 @@ func main() {
 	cache.Init()
 
 	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, "Hello World")
+		service := &item.ItemService{}
+		c.JSON(200, service.Get())
 	})
 
 	r.Run(":" + os.Getenv("PORTS"))

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"example.com/init/features/item"
+	"example.com/redis/features/item"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )

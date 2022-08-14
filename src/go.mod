@@ -1,4 +1,4 @@
-module example.com/init
+module example.com/redis
 
 go 1.18
 

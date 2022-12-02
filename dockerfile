@@ -1,26 +1,16 @@
-FROM golang:1.18.0-alpine
+FROM --platform=linux/x86_64 golang:1.18.0-alpine AS builder
 
-ENV GOPATH /go
-ENV GO111MODULE on
+WORKDIR /app
 
-RUN apk update && \
-    apk --no-cache add git
-
-WORKDIR /go/src
-
-COPY ./src/ /go/src/
+COPY ./src/ .
 
 RUN go mod tidy && \
-    go install github.com/cosmtrek/air@v1.27.3
+    go build -o main main.go
 
-ENV GIN_MODE=debug
-ENV PORTS=9090
-ENV DB_PORT=5432
-ENV DB_HOST=cache-database
-ENV DB_NAME=cache-database
-ENV DB_USER=postgres
-ENV DB_PASSWORD=postgres
+FROM --platform=linux/x86_64 golang:1.18.0-alpine AS production
+WORKDIR /app
+COPY --from=builder /app/main .
 
 EXPOSE 9090
 
-CMD ["air", "-c", ".air.conf"]
+CMD ["/app/main"]

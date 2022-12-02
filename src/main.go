@@ -9,6 +9,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type Response struct {
+	Message  string
+	EnvValue string
+}
+
 func main() {
 	r := gin.Default()
 	database.Init()
@@ -19,5 +24,12 @@ func main() {
 		c.JSON(200, service.Get())
 	})
 
-	r.Run(":" + os.Getenv("PORTS"))
+	r.GET("/hc", func(c *gin.Context) {
+		c.JSON(200, Response{
+			Message:  "success",
+			EnvValue: os.Getenv("GIN_MODE"),
+		})
+	})
+
+	r.Run(":9090")
 }

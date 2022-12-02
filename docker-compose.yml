@@ -6,14 +6,16 @@ services:
     container_name: cache-container
     build: 
       context: .
-      dockerfile: dockerfile
+      dockerfile: Dockerfile.dev
     depends_on:
       - cache-database
       - redis
     ports:
       - 9090:9090
+    env_file:
+      - ./src/.env.dev
     volumes:
-      - ./src:/go/src/
+      - ./src:/app/
   
   cache-database:
     image: postgres:14-alpine

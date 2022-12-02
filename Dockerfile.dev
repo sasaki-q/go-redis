@@ -1,0 +1,18 @@
+FROM --platform=linux/x86_64 golang:1.18.0-alpine
+
+WORKDIR /app
+
+ENV GOPATH /go
+ENV GO111MODULE on
+
+RUN apk update && \
+    apk --no-cache add git
+
+COPY ./src/ .
+
+RUN go mod tidy && \
+    go install github.com/cosmtrek/air@v1.27.3
+
+EXPOSE 9090
+
+CMD ["air", "-c", ".air.conf"]
